@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import { Item } from '../models/item';
 import { catchError, Observable, of } from 'rxjs';
 import { ItemShow } from '../models/item-show';
 
