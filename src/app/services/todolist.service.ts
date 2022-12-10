@@ -36,14 +36,14 @@ export class TodolistService {
 
     const data = {description:description,created_at:finaldate};
 
-    return this.httpClient.post(this.url_post,data,{observe:'body'}).pipe(catchError(this.handleError<any>('getTodoList')));
+    return this.httpClient.post(this.url_post,data,{observe:'body'}).pipe(catchError(this.handleError<any>('addTodo')));
   }
 
   editTodo(id:string,description:string):Observable<object>{
 
     const data = {id:id,description:description};
 
-    return this.httpClient.put(this.url_put,data,{observe:'body'}).pipe(catchError(this.handleError<any>('getTodoList')));
+    return this.httpClient.put(this.url_put,data,{observe:'body'}).pipe(catchError(this.handleError<any>('editTodo')));
   }
 
   deleteTodo(id:string):Observable<object>{
