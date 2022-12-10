@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { Item } from './models/item';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ItemShow } from './models/item-show';
 import { TodolistService } from './services/todolist.service';
 
 @Component({
@@ -10,16 +11,16 @@ import { TodolistService } from './services/todolist.service';
 export class AppComponent {
   title = 'todo';
 
-
-
   editActive:boolean = false;
   id:string;
-  description:string;
-  allItems:Item[] = [];
+  allItems:ItemShow[] = [];
+  todoForm:FormGroup;
 
-  constructor(private todolist:TodolistService){
+  constructor(private todolist:TodolistService, private fb:FormBuilder){
     this.id = '';
-    this.description = '';
+    this.todoForm = this.fb.group({
+      description:['',Validators.required]
+    })
   }
 
   ngOnInit(): void {
@@ -29,7 +30,7 @@ export class AppComponent {
   }
 
   getItems():void{
-    this.todolist.getTodoList().subscribe((result:Item[])=>this.allItems = result);
+    this.todolist.getTodoList().subscribe((result:ItemShow[])=>this.allItems = result);
   }
 
 
@@ -38,10 +39,6 @@ export class AppComponent {
     if(description === ''){
       return;
     }
-
-
-
-
 
     this.todolist.addTodo(description).subscribe(result=>{
       if(result){
@@ -55,18 +52,16 @@ export class AppComponent {
 
     this.editActive = true;
     this.id = this.allItems[index]._id;
-    this.description = this.allItems[index].description;
+    this.todoForm.patchValue({description:this.allItems[index].description});
+
 
 
   }
 
   sendEditTodo():void{
 
-    this.todolist.editTodo(this.id,this.description).subscribe(result=>{
-      if(result){
-        this.getItems();
-      }
-    })
+    this.editActive = false;
+
 
   }
 

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { Item } from '../models/item';
 import { catchError, Observable, of } from 'rxjs';
+import { ItemShow } from '../models/item-show';
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +15,12 @@ export class TodolistService {
   private url_post = '';
   private url_put = '';
   private url_delete = '';
-  
+
 
   constructor(private httpClient:HttpClient) { }
 
-  getTodoList():Observable<Item[]>{
-    return this.httpClient.get<Item[]>(this.url_get,{observe:'body'}).pipe(catchError(this.handleError<any>('getTodoList')));
+  getTodoList():Observable<ItemShow[]>{
+    return this.httpClient.get<ItemShow[]>(this.url_get,{observe:'body'}).pipe(catchError(this.handleError<any>('getTodoList')));
   }
 
   addTodo(description:string):Observable<object>{
@@ -28,7 +29,7 @@ export class TodolistService {
     const year = date.getFullYear().toString();
     const month = (date.getMonth() + 1) < 10?'0'+(date.getMonth() + 1).toString():(date.getMonth() + 1).toString();
     const day = date.getDate() < 10?'0'+date.getDate().toString():date.getDate().toString();
-    const hour = date.getHours() < 10?'0'+date.getHours().toString()+':':date.getHours().toString();
+    const hour = date.getHours() < 10?'0'+date.getHours().toString()+':':date.getHours().toString()+':';
     const minutes = date.getMinutes() < 10?'0'+date.getMinutes().toString():date.getMinutes().toString();
 
     const finaldate = year+'-'+month+'-'+day+' '+hour+minutes;
@@ -39,9 +40,9 @@ export class TodolistService {
   }
 
   editTodo(id:string,description:string):Observable<object>{
-    
+
     const data = {id:id,description:description};
-    
+
     return this.httpClient.put(this.url_put,data,{observe:'body'}).pipe(catchError(this.handleError<any>('getTodoList')));
   }
 
