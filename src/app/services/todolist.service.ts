@@ -10,10 +10,12 @@ export class TodolistService {
 
   //To do
   //Define the route address to the server
-  private url_get = '';
-  private url_post = '';
-  private url_put = '';
-  private url_delete = '';
+  private port = 3000;
+
+  private url_get = 'http://localhost:' + this.port + '/api/get_todos';
+  private url_post = 'http://localhost:' + this.port + '/api/add_todo';
+  private url_delete = 'http://localhost:' + this.port + '/api/delete_todo';
+  private url_put = 'http://localhost:' + this.port + '/api/put_todo'; 
 
 
   constructor(private httpClient:HttpClient) { }
@@ -23,7 +25,7 @@ export class TodolistService {
   }
 
   addTodo(description:string):Observable<object>{
-
+  
     let date = new Date();
     const year = date.getFullYear().toString();
     const month = (date.getMonth() + 1) < 10?'0'+(date.getMonth() + 1).toString():(date.getMonth() + 1).toString();
@@ -34,7 +36,7 @@ export class TodolistService {
     const finaldate = year+'-'+month+'-'+day+' '+hour+minutes;
 
     const data = {description:description,created_at:finaldate};
-
+    
     return this.httpClient.post(this.url_post,data,{observe:'body'}).pipe(catchError(this.handleError<any>('addTodo')));
   }
 

@@ -19,10 +19,10 @@
     <p>Time: {{item.time}}</p>
     </li>
   </ul>
-  <div *ngIf="editActive">
-    <form [formGroup]="todoForm">
+  <div *ngIf="editActive" >
+    <form [formGroup]="todoForm" (ngSubmit)="sendEditTodo();">
       <input type="text" formControlName="description">
-      <button (click)="sendEditTodo()">Edit</button>
+      <button type="submit">Edit</button>
     </form>
   </div>
 

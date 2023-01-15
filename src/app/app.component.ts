@@ -52,17 +52,21 @@ export class AppComponent {
 
     this.editActive = true;
     this.id = this.allItems[index]._id;
-    this.todoForm.patchValue({description:this.allItems[index].description});
-
-
-
+    this.todoForm.patchValue({description:this.allItems[index].description}); 
   }
 
   sendEditTodo():void{
 
-    this.editActive = false;
-
-
+    this.editActive = false; 
+    //console.log(this.id, "  ", this.todoForm.getRawValue().description);
+    //this.todolist.editTodo(this.id, this.todoForm.getRawValue().description).subscribe((result: ItemShow[]) => this.allItems = result);
+    this.todolist.editTodo(this.id, this.todoForm.getRawValue().description).subscribe(result => {
+      if (result) {
+        this.getItems();
+      }
+      else { 
+      }
+    })
   }
 
   deleteItem(index:number):void{
